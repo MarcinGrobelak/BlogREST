@@ -7,16 +7,36 @@ package com.mgrobelak.blogrest.entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@NamedQueries({ @NamedQuery(name = "getPosts", query = "SELECT p FROM Post p") })
+
 @XmlRootElement
+@Entity
 public class Post implements Serializable {
 
 	private static final long serialVersionUID = -7012906026786780373L;
 
+	@Id
+	@GeneratedValue
 	private Long id;
+
 	private String content;
+
+	@Column(name = "CREATION_DATE")
 	private LocalDate creationDate;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AUTHOR_ID")
 	private User author;
 
 	public Post() {
@@ -24,7 +44,6 @@ public class Post implements Serializable {
 	}
 
 	public Post(Long id, String content, User author) {
-		super();
 		this.id = id;
 		this.content = content;
 		this.creationDate = LocalDate.now();

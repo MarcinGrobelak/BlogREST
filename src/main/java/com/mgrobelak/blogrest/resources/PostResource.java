@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.mgrobelak.blogrest.entities.Post;
-import com.mgrobelak.blogrest.rservices.PostManager;
+import com.mgrobelak.blogrest.services.PostManager;
 
 @Path("/posts")
 public class PostResource {
@@ -22,7 +22,7 @@ public class PostResource {
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
 	public List<Post> getPosts() {
-		return postManager.getPosts();
+		return postManager.getAll();
 	}
 
 }
