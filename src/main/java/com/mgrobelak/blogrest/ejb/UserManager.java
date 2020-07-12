@@ -1,19 +1,21 @@
-package com.mgrobelak.blogrest.services;
+package com.mgrobelak.blogrest.ejb;
 
 import java.util.List;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import com.mgrobelak.blogrest.entities.User;
 
 @Stateless
+@LocalBean
 public class UserManager implements CRUD<User> {
 
 	private static final long serialVersionUID = -2278111837707914050L;
 
-	@PersistenceContext
+	@Inject
 	private EntityManager entityManager;
 
 	@Override

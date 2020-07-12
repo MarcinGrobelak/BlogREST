@@ -11,8 +11,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.mgrobelak.blogrest.ejb.PostManager;
 import com.mgrobelak.blogrest.entities.Post;
-import com.mgrobelak.blogrest.services.PostManager;
 
 @Path("/posts")
 public class PostResource {

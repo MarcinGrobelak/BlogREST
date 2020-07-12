@@ -1,4 +1,4 @@
-package com.mgrobelak.blogrest.services;
+package com.mgrobelak.blogrest.ejb;
 
 import java.io.Serializable;
 import java.util.List;

@@ -5,11 +5,13 @@ import java.time.LocalDate;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
+import com.mgrobelak.blogrest.ejb.PostManager;
+import com.mgrobelak.blogrest.ejb.UserManager;
 import com.mgrobelak.blogrest.entities.Post;
 import com.mgrobelak.blogrest.entities.User;
 
 @Startup
-public class SampleData {
+public class SampleDataService {
 
 	@Inject
 	private PostManager postManager;
