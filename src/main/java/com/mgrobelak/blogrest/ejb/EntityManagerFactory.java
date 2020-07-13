@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateful;
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
@@ -12,9 +12,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 @Stateful
-@ConversationScoped
+@ApplicationScoped
 @LocalBean
-public class EntityManagerProducer implements Serializable {
+public class EntityManagerFactory implements Serializable {
 
 	private static final long serialVersionUID = -1139322602770740119L;
 

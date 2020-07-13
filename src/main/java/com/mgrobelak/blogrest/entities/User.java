@@ -9,15 +9,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @NamedQueries({ @NamedQuery(name = "getUsers", query = "SELECT u FROM User u") })
 
@@ -27,31 +28,24 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 795149849279154668L;
 
-	@Id
-	@GeneratedValue
 	private Long id;
-
 	private String name;
-
 	private String surname;
-
-	@Column(name = "BIRTH_DATE")
 	private LocalDate birthDate;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
 	private List<Post> posts = new ArrayList<>();
 
 	public User() {
 
 	}
 
-	public User(Long id, String name, String surname, LocalDate birthDate) {
-		this.id = id;
+	public User(String name, String surname, LocalDate birthDate) {
 		this.name = name;
 		this.surname = surname;
 		this.birthDate = birthDate;
 	}
 
+	@Id
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
@@ -76,12 +70,37 @@ public class User implements Serializable {
 		this.surname = surname;
 	}
 
+	@Column(name = "BIRTH_DATE")
 	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+	@XmlTransient
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+	public void addPost(Post post) {
+		if (post != null) {
+			posts.add(post);
+			post.setAuthor(this);
+		}
+	}
+
+	public void removePost(Post post) {
+		if (post != null) {
+			posts.remove(post);
+			post.setAuthor(null);
+		}
 	}
 
 	@Override

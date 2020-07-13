@@ -48,7 +48,7 @@ public class PostManager implements CRUD<Post> {
 	@Override
 	public Post findById(Long id) {
 		if (id != null) {
-			entityManager.find(Post.class, id);
+			return entityManager.find(Post.class, id);
 		}
 		return null;
 	}

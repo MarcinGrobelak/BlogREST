@@ -5,7 +5,7 @@ package com.mgrobelak.blogrest.entities;
  */
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,36 +26,38 @@ public class Post implements Serializable {
 
 	private static final long serialVersionUID = -7012906026786780373L;
 
-	@Id
-	@GeneratedValue
 	private Long id;
-
+	private String title;
 	private String content;
-
-	@Column(name = "CREATION_DATE")
-	private LocalDate creationDate;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "AUTHOR_ID")
+	private LocalDateTime creationDate;
 	private User author;
 
 	public Post() {
 
 	}
 
-	public Post(Long id, String content, User author) {
-		this.id = id;
+	public Post(String title, String content) {
+		this.title = title;
 		this.content = content;
-		this.creationDate = LocalDate.now();
-		this.author = author;
+		this.creationDate = LocalDateTime.now();
 	}
 
+	@Id
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getContent() {
@@ -66,14 +68,17 @@ public class Post implements Serializable {
 		this.content = content;
 	}
 
-	public LocalDate getCreationDate() {
+	@Column(name = "CREATION_DATE")
+	public LocalDateTime getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(LocalDate creationDate) {
+	public void setCreationDate(LocalDateTime creationDate) {
 		this.creationDate = creationDate;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "AUTHOR_ID")
 	public User getAuthor() {
 		return author;
 	}
