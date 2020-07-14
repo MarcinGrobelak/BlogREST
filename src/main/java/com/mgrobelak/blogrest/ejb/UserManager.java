@@ -19,10 +19,11 @@ public class UserManager implements CRUD<User> {
 	private EntityManager entityManager;
 
 	@Override
-	public void create(User user) {
+	public User create(User user) {
 		if (user != null) {
 			entityManager.persist(user);
 		}
+		return user;
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface CRUD<T> extends Serializable {
 
-	void create(T instance);
+	T create(T instance);
 
 	T update(T instance);
 

@@ -19,10 +19,11 @@ public class PostManager implements CRUD<Post> {
 	private EntityManager entityManager;
 
 	@Override
-	public void create(Post post) {
+	public Post create(Post post) {
 		if (post != null) {
 			entityManager.persist(post);
 		}
+		return post;
 	}
 
 	@Override

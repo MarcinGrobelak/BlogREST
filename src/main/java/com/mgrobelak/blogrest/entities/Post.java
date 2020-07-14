@@ -17,6 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
 @NamedQueries({ @NamedQuery(name = "getPosts", query = "SELECT p FROM Post p") })
 
@@ -69,6 +72,7 @@ public class Post implements Serializable {
 	}
 
 	@Column(name = "CREATION_DATE")
+	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
 	public LocalDateTime getCreationDate() {
 		return creationDate;
 	}

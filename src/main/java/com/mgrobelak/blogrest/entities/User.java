@@ -5,7 +5,7 @@ package com.mgrobelak.blogrest.entities;
  */
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +19,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
 @NamedQueries({ @NamedQuery(name = "getUsers", query = "SELECT u FROM User u") })
 
@@ -31,14 +34,14 @@ public class User implements Serializable {
 	private Long id;
 	private String name;
 	private String surname;
-	private LocalDate birthDate;
+	private LocalDateTime birthDate;
 	private List<Post> posts = new ArrayList<>();
 
 	public User() {
 
 	}
 
-	public User(String name, String surname, LocalDate birthDate) {
+	public User(String name, String surname, LocalDateTime birthDate) {
 		this.name = name;
 		this.surname = surname;
 		this.birthDate = birthDate;
@@ -71,11 +74,12 @@ public class User implements Serializable {
 	}
 
 	@Column(name = "BIRTH_DATE")
-	public LocalDate getBirthDate() {
+	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
+	public LocalDateTime getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(LocalDate birthDate) {
+	public void setBirthDate(LocalDateTime birthDate) {
 		this.birthDate = birthDate;
 	}
 
