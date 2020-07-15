@@ -35,6 +35,9 @@ public class PostResource {
 	@Inject
 	private PostManager postManager;
 
+	@Inject
+	private PostCommentResource postCommentResource;
+
 	@GET
 	public List<Post> getPosts() {
 		return postManager.getAll();
@@ -68,7 +71,7 @@ public class PostResource {
 
 	@Path("/{postId}/comments")
 	public PostCommentResource getPostCommentResource() {
-		return new PostCommentResource();
+		return postCommentResource;
 	}
 
 }

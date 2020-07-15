@@ -13,7 +13,7 @@ import com.mgrobelak.blogrest.entities.PostComment;
 @LocalBean
 public class PostCommentManager implements CRUD<PostComment> {
 
-	private static final long serialVersionUID = 3698321353274450896L;
+	private static final long serialVersionUID = -7266556512847436674L;
 
 	@Inject
 	private EntityManager entityManager;

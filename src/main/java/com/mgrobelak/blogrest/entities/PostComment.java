@@ -57,6 +57,8 @@ public class PostComment implements Serializable {
 		this.id = id;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "POST_ID")
 	public Post getPost() {
 		return post;
 	}
