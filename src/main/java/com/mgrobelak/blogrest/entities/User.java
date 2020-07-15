@@ -35,7 +35,9 @@ public class User implements Serializable {
 	private String name;
 	private String surname;
 	private LocalDateTime birthDate;
+
 	private List<Post> posts = new ArrayList<>();
+	private List<PostComment> postComments = new ArrayList<>();
 
 	public User() {
 
@@ -104,6 +106,34 @@ public class User implements Serializable {
 		if (post != null) {
 			posts.remove(post);
 			post.setAuthor(null);
+		}
+	}
+
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+	@XmlTransient
+	public List<PostComment> getPostComments() {
+		return postComments;
+	}
+
+	public void setPostComments(List<PostComment> postComments) {
+		this.postComments = postComments;
+	}
+
+	public void addPostComment(Post post, PostComment postComment) {
+		if (postComment != null) {
+			postComments.add(postComment);
+			postComment.setAuthor(this);
+			postComment.getPost().getPostComments().add(postComment);
+			postComment.setPost(post);
+		}
+	}
+
+	public void removePost(PostComment postComment) {
+		if (postComment != null) {
+			postComments.remove(postComment);
+			postComment.setAuthor(null);
+			postComment.getPost().getPostComments().remove(postComment);
+			postComment.setPost(null);
 		}
 	}
 

@@ -1,5 +1,9 @@
 package com.mgrobelak.blogrest.resources;
 
+/**
+ * @author Marcin Grobelak
+ */
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,6 +21,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.mgrobelak.blogrest.ejb.PostManager;
 import com.mgrobelak.blogrest.entities.Post;
@@ -30,7 +36,6 @@ public class PostResource {
 	private PostManager postManager;
 
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	public List<Post> getPosts() {
 		return postManager.getAll();
 	}
@@ -42,8 +47,8 @@ public class PostResource {
 	}
 
 	@POST
-	public Post createPost(Post post) {
-		return postManager.create(post);
+	public Response createPost(Post post) {
+		return Response.status(Status.CREATED).entity(postManager.create(post)).build();
 	}
 
 	@PUT
@@ -59,6 +64,11 @@ public class PostResource {
 	public void deletePost(@PathParam("postId") Long id) {
 		Post post = postManager.findById(id);
 		postManager.delete(post);
+	}
+
+	@Path("/{postId}/comments")
+	public PostCommentResource getPostCommentResource() {
+		return new PostCommentResource();
 	}
 
 }

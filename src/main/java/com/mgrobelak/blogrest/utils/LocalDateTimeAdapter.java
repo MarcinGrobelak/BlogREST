@@ -1,5 +1,9 @@
 package com.mgrobelak.blogrest.utils;
 
+/**
+ * @author Marcin Grobelak
+ */
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

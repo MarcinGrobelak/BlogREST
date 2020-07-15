@@ -6,7 +6,10 @@ package com.mgrobelak.blogrest.entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +19,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
@@ -34,6 +39,8 @@ public class Post implements Serializable {
 	private String content;
 	private LocalDateTime creationDate;
 	private User author;
+
+	private List<PostComment> postComments = new ArrayList<>();
 
 	public Post() {
 
@@ -89,6 +96,35 @@ public class Post implements Serializable {
 
 	public void setAuthor(User author) {
 		this.author = author;
+	}
+
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+	@XmlTransient
+	public List<PostComment> getPostComments() {
+		return postComments;
+	}
+
+	public void setPostComments(List<PostComment> postComments) {
+		this.postComments = postComments;
+	}
+
+	public void addPostComment(PostComment postComment, User author) {
+		if (postComment != null) {
+			postComments.add(postComment);
+			postComment.setPost(this);
+			postComment.getAuthor().getPostComments().add(postComment);
+			postComment.setAuthor(author);
+
+		}
+	}
+
+	public void removePost(PostComment postComment) {
+		if (postComment != null) {
+			postComments.remove(postComment);
+			postComment.setPost(null);
+			postComment.getAuthor().getPostComments().remove(postComment);
+			postComment.setAuthor(null);
+		}
 	}
 
 	@Override
