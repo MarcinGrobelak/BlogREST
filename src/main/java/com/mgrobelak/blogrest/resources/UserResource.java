@@ -24,7 +24,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.mgrobelak.blogrest.ejb.UserManager;
+import com.mgrobelak.blogrest.ejb.GenericManager;
 import com.mgrobelak.blogrest.entities.User;
 
 @Path("/users")
@@ -33,17 +33,17 @@ import com.mgrobelak.blogrest.entities.User;
 public class UserResource {
 
 	@Inject
-	private UserManager userManager;
+	private GenericManager<User> userManager;
 
 	@GET
 	public List<User> getUsers() {
-		return userManager.getAll();
+		return userManager.performQuery(User.class, "getUsers");
 	}
 
 	@GET
 	@Path("/{userId}")
 	public User getUser(@PathParam("userId") Long id) {
-		return userManager.findById(id);
+		return userManager.findById(User.class, id);
 	}
 
 	@POST
@@ -62,7 +62,7 @@ public class UserResource {
 	@DELETE
 	@Path("/{userId}")
 	public void deleteUser(@PathParam("userId") Long id) {
-		User user = userManager.findById(id);
+		User user = userManager.findById(User.class, id);
 		userManager.delete(user);
 	}
 

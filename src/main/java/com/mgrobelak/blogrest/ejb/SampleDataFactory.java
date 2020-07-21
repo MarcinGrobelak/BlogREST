@@ -19,10 +19,10 @@ public class SampleDataFactory implements Serializable {
 	private static final long serialVersionUID = -8482592592856092112L;
 
 	@Inject
-	private PostManager postManager;
+	private GenericManager<Post> postManager;
 
 	@Inject
-	private UserManager userManager;
+	private GenericManager<User> userManager;
 
 	@PostConstruct
 	public void createSampleDBEntries() {

@@ -7,6 +7,7 @@ package com.mgrobelak.blogrest.resources;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 
@@ -24,8 +25,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.mgrobelak.blogrest.ejb.PostManager;
+import com.mgrobelak.blogrest.ejb.GenericManager;
 import com.mgrobelak.blogrest.entities.Post;
+import com.mgrobelak.blogrest.filters.DateFilter;
+import com.mgrobelak.blogrest.filters.PaginationFilter;
 
 @Path("/posts")
 @Produces(MediaType.APPLICATION_JSON)
@@ -33,20 +36,20 @@ import com.mgrobelak.blogrest.entities.Post;
 public class PostResource {
 
 	@Inject
-	private PostManager postManager;
+	private GenericManager<Post> postManager;
 
 	@Inject
 	private PostCommentResource postCommentResource;
 
 	@GET
-	public List<Post> getPosts() {
-		return postManager.getAll();
+	public List<Post> getPosts(@BeanParam DateFilter date, @BeanParam PaginationFilter pagination) {
+		return postManager.performQuery(Post.class, "getPosts");
 	}
 
 	@GET
 	@Path("/{postId}")
 	public Post getPost(@PathParam("postId") Long id) {
-		return postManager.findById(id);
+		return postManager.findById(Post.class, id);
 	}
 
 	@POST
@@ -65,7 +68,7 @@ public class PostResource {
 	@DELETE
 	@Path("/{postId}")
 	public void deletePost(@PathParam("postId") Long id) {
-		Post post = postManager.findById(id);
+		Post post = postManager.findById(Post.class, id);
 		postManager.delete(post);
 	}
 

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,12 +17,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.mgrobelak.blogrest.ejb.PostCommentManager;
-import com.mgrobelak.blogrest.ejb.PostManager;
-import com.mgrobelak.blogrest.ejb.UserManager;
+import com.mgrobelak.blogrest.ejb.GenericManager;
 import com.mgrobelak.blogrest.entities.Post;
 import com.mgrobelak.blogrest.entities.PostComment;
 import com.mgrobelak.blogrest.entities.User;
+import com.mgrobelak.blogrest.filters.DateFilter;
+import com.mgrobelak.blogrest.filters.PaginationFilter;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -29,23 +30,23 @@ import com.mgrobelak.blogrest.entities.User;
 public class PostCommentResource {
 
 	@Inject
-	private PostCommentManager postCommentManager;
+	private GenericManager<PostComment> postCommentManager;
 
 	@Inject
-	private PostManager postManager;
+	private GenericManager<Post> postManager;
 
 	@Inject
-	private UserManager userManager;
+	private GenericManager<User> userManager;
 
 	@GET
-	public List<PostComment> getPostComments() {
-		return postCommentManager.getAll();
+	public List<PostComment> getPostComments(@BeanParam DateFilter date, @BeanParam PaginationFilter pagination) {
+		return postCommentManager.performQuery(PostComment.class, "getPostComments");
 	}
 
 	@GET
 	@Path("/{commentId}")
 	public PostComment getPost(@PathParam("commentId") Long id) {
-		return postCommentManager.findById(id);
+		return postCommentManager.findById(PostComment.class, id);
 	}
 
 	@POST
@@ -54,7 +55,7 @@ public class PostCommentResource {
 			return Response.status(Status.NOT_FOUND).entity("Post comment JSON not found").build();
 		}
 
-		Post post = postManager.findById(postId);
+		Post post = postManager.findById(Post.class, postId);
 		if (post == null) {
 			return Response.status(Status.NOT_FOUND).entity("Post not found.").build();
 		}
@@ -64,7 +65,7 @@ public class PostCommentResource {
 			return Response.status(Status.NOT_FOUND).entity("Author not found.").build();
 		}
 
-		User author = userManager.findById(postComment.getAuthor().getId());
+		User author = userManager.findById(User.class, postComment.getAuthor().getId());
 		author.addPostComment(post, postComment);
 		postComment.setCreationDate(LocalDateTime.now());
 
@@ -82,7 +83,7 @@ public class PostCommentResource {
 	@DELETE
 	@Path("/{commentId}")
 	public void deletePost(@PathParam("commentId") Long id) {
-		PostComment postComment = postCommentManager.findById(id);
+		PostComment postComment = postCommentManager.findById(PostComment.class, id);
 		postCommentManager.delete(postComment);
 	}
 
