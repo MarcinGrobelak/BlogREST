@@ -1,7 +1,13 @@
 package com.mgrobelak.blogrest.resources;
 
+/**
+ * @author Marcin Grobelak
+ */
+
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.ws.rs.BeanParam;
@@ -40,6 +46,14 @@ public class PostCommentResource {
 
 	@GET
 	public List<PostComment> getPostComments(@BeanParam DateFilter date, @BeanParam PaginationFilter pagination) {
+
+		if (pagination.getStartId() > 0 && pagination.getSize() > 0) {
+			Map<String, Object> parameters = new HashMap<>();
+			parameters.put("minId", Long.valueOf(pagination.getStartId()));
+			return postCommentManager.performQueryParam(PostComment.class, "getPostsCommentsFromId", parameters,
+					pagination.getSize());
+		}
+
 		return postCommentManager.performQuery(PostComment.class, "getPostComments");
 	}
 

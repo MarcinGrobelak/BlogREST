@@ -1,5 +1,9 @@
 package com.mgrobelak.blogrest.ejb;
 
+/**
+ * @author Marcin Grobelak
+ */
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +18,7 @@ import com.mgrobelak.blogrest.entities.User;
 import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
 @Startup
-public class SampleDataFactory implements Serializable {
+public class SampleDataCreator implements Serializable {
 
 	private static final long serialVersionUID = -8482592592856092112L;
 

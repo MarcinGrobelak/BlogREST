@@ -1,5 +1,9 @@
 package com.mgrobelak.blogrest.ejb;
 
+/**
+ * @author Marcin Grobelak
+ */
+
 import java.io.Serializable;
 
 import javax.ejb.LocalBean;

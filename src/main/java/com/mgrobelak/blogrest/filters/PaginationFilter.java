@@ -1,18 +1,22 @@
 package com.mgrobelak.blogrest.filters;
 
+/**
+ * @author Marcin Grobelak
+ */
+
 import javax.ws.rs.QueryParam;
 
 public class PaginationFilter {
 
-	private @QueryParam(value = "start") int start;
+	private @QueryParam(value = "startId") int startId;
 	private @QueryParam(value = "size") int size;
 
-	public int getStart() {
-		return start;
+	public int getStartId() {
+		return startId;
 	}
 
-	public void setStart(int start) {
-		this.start = start;
+	public void setStartId(int startId) {
+		this.startId = startId;
 	}
 
 	public int getSize() {

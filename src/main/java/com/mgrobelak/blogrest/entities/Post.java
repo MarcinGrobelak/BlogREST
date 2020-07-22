@@ -4,7 +4,6 @@ package com.mgrobelak.blogrest.entities;
  * @author Marcin Grobelak
  */
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -26,15 +23,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
-@NamedQueries({ @NamedQuery(name = "getPosts", query = "SELECT p FROM Post p") })
+@NamedQueries({ @NamedQuery(name = "getPosts", query = "SELECT p FROM Post p"),
+		@NamedQuery(name = "getPostsFromId", query = "SELECT p FROM Post p WHERE p.id >= :minId ORDER BY p.id") })
 
 @XmlRootElement
 @Entity
-public class Post implements Serializable {
+public class Post extends BasicEntity {
 
 	private static final long serialVersionUID = -7012906026786780373L;
 
-	private Long id;
 	private String title;
 	private String content;
 	private LocalDateTime creationDate;
@@ -50,16 +47,6 @@ public class Post implements Serializable {
 		this.title = title;
 		this.content = content;
 		this.creationDate = LocalDateTime.now();
-	}
-
-	@Id
-	@GeneratedValue
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getTitle() {

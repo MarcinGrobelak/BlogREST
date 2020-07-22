@@ -4,7 +4,6 @@ package com.mgrobelak.blogrest.entities;
  * @author Marcin Grobelak
  */
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +11,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -23,15 +20,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
-@NamedQueries({ @NamedQuery(name = "getUsers", query = "SELECT u FROM User u") })
+@NamedQueries({ @NamedQuery(name = "getUsers", query = "SELECT u FROM User u"),
+		@NamedQuery(name = "getUsersFromId", query = "SELECT u FROM User u WHERE u.id >= :minId ORDER BY u.id") })
 
 @XmlRootElement
 @Entity
-public class User implements Serializable {
+public class User extends BasicEntity {
 
 	private static final long serialVersionUID = 795149849279154668L;
 
-	private Long id;
 	private String name;
 	private String surname;
 	private LocalDateTime birthDate;
@@ -47,16 +44,6 @@ public class User implements Serializable {
 		this.name = name;
 		this.surname = surname;
 		this.birthDate = birthDate;
-	}
-
-	@Id
-	@GeneratedValue
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {

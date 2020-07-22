@@ -1,5 +1,9 @@
 package com.mgrobelak.blogrest.filters;
 
+/**
+ * @author Marcin Grobelak
+ */
+
 import javax.ws.rs.QueryParam;
 
 public class DateFilter {
