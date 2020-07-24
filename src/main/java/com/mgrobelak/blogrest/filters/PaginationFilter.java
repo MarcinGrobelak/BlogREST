@@ -8,22 +8,22 @@ import javax.ws.rs.QueryParam;
 
 public class PaginationFilter {
 
-	private @QueryParam(value = "startId") int startId;
-	private @QueryParam(value = "size") int size;
+	private @QueryParam(value = "startId") Long startId;
+	private @QueryParam(value = "size") Integer size;
 
-	public int getStartId() {
+	public Long getStartId() {
 		return startId;
 	}
 
-	public void setStartId(int startId) {
+	public void setStartId(Long startId) {
 		this.startId = startId;
 	}
 
-	public int getSize() {
+	public Integer getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(Integer size) {
 		this.size = size;
 	}
 

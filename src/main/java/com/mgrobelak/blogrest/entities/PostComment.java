@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
 @NamedQueries({ @NamedQuery(name = "getPostComments", query = "SELECT c FROM PostComment c"),
-		@NamedQuery(name = "getPostsCommentsFromId", query = "SELECT c FROM PostComment c WHERE c.id >= :minId ORDER BY c.id") })
+		@NamedQuery(name = "getPostsCommentsFromId", query = "SELECT c FROM PostComment c WHERE (:startId IS NULL OR c.id >= :startId) ORDER BY c.id") })
 
 @XmlRootElement
 @Entity

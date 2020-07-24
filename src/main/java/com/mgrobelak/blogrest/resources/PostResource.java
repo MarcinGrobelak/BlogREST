@@ -41,14 +41,9 @@ public class PostResource {
 
 	@GET
 	public List<Post> getPosts(@BeanParam DateFilter date, @BeanParam PaginationFilter pagination) {
-
-		if (pagination.getStartId() > 0 && pagination.getSize() > 0) {
-			Map<String, Object> parameters = new HashMap<>();
-			parameters.put("minId", Long.valueOf(pagination.getStartId()));
-			return postManager.performQueryParam(Post.class, "getPostsFromId", parameters, pagination.getSize());
-		}
-
-		return postManager.performQuery(Post.class, "getPosts");
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("startId", pagination.getStartId());
+		return postManager.performQueryParam(Post.class, "getPostsFromId", parameters, pagination.getSize());
 	}
 
 	@GET

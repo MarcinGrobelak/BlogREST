@@ -8,22 +8,22 @@ import javax.ws.rs.QueryParam;
 
 public class DateFilter {
 
-	private @QueryParam("year") int year;
-	private @QueryParam("month") int month;
+	private @QueryParam("year") Integer year;
+	private @QueryParam("month") Integer month;
 
-	public int getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 
-	public int getMonth() {
+	public Integer getMonth() {
 		return month;
 	}
 
-	public void setMonth(int month) {
+	public void setMonth(Integer month) {
 		this.month = month;
 	}
 

@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
 @NamedQueries({ @NamedQuery(name = "getUsers", query = "SELECT u FROM User u"),
-		@NamedQuery(name = "getUsersFromId", query = "SELECT u FROM User u WHERE u.id >= :minId ORDER BY u.id") })
+		@NamedQuery(name = "getUsersFromId", query = "SELECT u FROM User u WHERE (:startId IS NULL OR u.id >= :startId) ORDER BY u.id") })
 
 @XmlRootElement
 @Entity
