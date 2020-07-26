@@ -40,7 +40,8 @@ public class SampleDataCreator implements Serializable {
 		User marcela = new User("Marcela", "Grobelak",
 				LocalDateTime.parse("2010-10-02@07:00", DateTimeFormatter.ofPattern(LocalDateTimeAdapter.dataPattern)));
 		userManager.create(marcela);
-		Post firstPost = new Post("REST demo", "It is a nice day for a REST.");
+		Post firstPost = new Post("REST demo", "It is a nice day for a REST.",
+				LocalDateTime.parse("2019-11-23@19:30", DateTimeFormatter.ofPattern(LocalDateTimeAdapter.dataPattern)));
 		marcela.addPost(firstPost);
 		postManager.create(firstPost);
 		marcela.addPost(new Post("Thread safe app", "Stateless EJB to asure transactions"));

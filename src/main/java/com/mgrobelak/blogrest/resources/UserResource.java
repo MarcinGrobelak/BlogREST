@@ -39,7 +39,7 @@ public class UserResource {
 	public List<User> getUsers(@BeanParam PaginationFilter pagination) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("startId", pagination.getStartId());
-		return userManager.performQueryParam(User.class, "getUsersFromId", parameters, pagination.getSize());
+		return userManager.performQueryParam(User.class, "getFilteredUsers", parameters, pagination.getSize());
 	}
 
 	@GET

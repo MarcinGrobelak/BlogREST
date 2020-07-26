@@ -23,8 +23,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
-@NamedQueries({ @NamedQuery(name = "getPosts", query = "SELECT p FROM Post p"),
-		@NamedQuery(name = "getPostsFromId", query = "FROM Post p WHERE (:startId IS NULL OR p.id >= :startId) ORDER BY p.id") })
+@NamedQueries({ @NamedQuery(name = "getAllPosts", query = "SELECT p FROM Post p"),
+		@NamedQuery(name = "getFilteredPosts", query = "FROM Post p WHERE (:startId IS NULL OR p.id >= :startId) AND (:month IS NULL OR MONTH(p.creationDate) = :month) AND (:year IS NULL OR YEAR(p.creationDate) = :year) ORDER BY p.id") })
 
 @XmlRootElement
 @Entity
@@ -49,6 +49,12 @@ public class Post extends BasicEntity {
 		this.creationDate = LocalDateTime.now();
 	}
 
+	public Post(String title, String content, LocalDateTime createionDate) {
+		this.title = title;
+		this.content = content;
+		this.creationDate = createionDate;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -65,7 +71,7 @@ public class Post extends BasicEntity {
 		this.content = content;
 	}
 
-	@Column(name = "CREATION_DATE")
+	@Column(name = "CREATION_DATE", columnDefinition = "TIMESTAMP")
 	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
 	public LocalDateTime getCreationDate() {
 		return creationDate;

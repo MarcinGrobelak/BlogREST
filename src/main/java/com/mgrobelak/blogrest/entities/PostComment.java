@@ -1,4 +1,5 @@
 package com.mgrobelak.blogrest.entities;
+
 /**
  * @author Marcin Grobelak
  */
@@ -18,8 +19,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
-@NamedQueries({ @NamedQuery(name = "getPostComments", query = "SELECT c FROM PostComment c"),
-		@NamedQuery(name = "getPostsCommentsFromId", query = "SELECT c FROM PostComment c WHERE (:startId IS NULL OR c.id >= :startId) ORDER BY c.id") })
+@NamedQueries({ @NamedQuery(name = "getAllPostComments", query = "SELECT c FROM PostComment c"),
+		@NamedQuery(name = "getFilteredPostComments", query = "FROM PostComment c WHERE (:startId IS NULL OR c.id >= :startId) AND (:month IS NULL OR MONTH(c.creationDate) = :month) AND (:year IS NULL OR YEAR(c.creationDate) = :year) ORDER BY c.id") })
 
 @XmlRootElement
 @Entity
@@ -61,7 +62,7 @@ public class PostComment extends BasicEntity {
 		this.content = content;
 	}
 
-	@Column(name = "CREATION_DATE")
+	@Column(name = "CREATION_DATE", columnDefinition = "TIMESTAMP")
 	@XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
 	public LocalDateTime getCreationDate() {
 		return creationDate;

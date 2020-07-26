@@ -45,10 +45,12 @@ public class PostCommentResource {
 	private GenericManager<User> userManager;
 
 	@GET
-	public List<PostComment> getPostComments(@BeanParam DateFilter date, @BeanParam PaginationFilter pagination) {
+	public List<PostComment> getPostComments(@BeanParam DateFilter dateFilter, @BeanParam PaginationFilter pagination) {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("startId", pagination.getStartId());
-		return postCommentManager.performQueryParam(PostComment.class, "getPostsCommentsFromId", parameters,
+		parameters.put("month", dateFilter.getMonth());
+		parameters.put("year", dateFilter.getYear());
+		return postCommentManager.performQueryParam(PostComment.class, "getFilteredPostComments", parameters,
 				pagination.getSize());
 	}
 
