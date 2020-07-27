@@ -14,10 +14,12 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.mgrobelak.blogrest.resources.UserResource;
 import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
 @NamedQueries({ @NamedQuery(name = "getAllUsers", query = "SELECT u FROM User u"),
@@ -161,5 +163,12 @@ public class User extends BasicEntity {
 		} else if (!birthDate.equals(other.getBirthDate()))
 			return false;
 		return true;
+	}
+
+	@Override
+	@Transient
+	@XmlTransient
+	public Class<?> getResourceClass() {
+		return UserResource.class;
 	}
 }

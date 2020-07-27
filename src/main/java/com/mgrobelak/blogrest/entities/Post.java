@@ -1,5 +1,7 @@
 package com.mgrobelak.blogrest.entities;
 
+import java.lang.reflect.Method;
+
 /**
  * @author Marcin Grobelak
  */
@@ -17,10 +19,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.mgrobelak.blogrest.resources.PostCommentResource;
+import com.mgrobelak.blogrest.resources.PostResource;
 import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
 @NamedQueries({ @NamedQuery(name = "getAllPosts", query = "SELECT p FROM Post p"),
@@ -28,7 +33,7 @@ import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
 @XmlRootElement
 @Entity
-public class Post extends BasicEntity {
+public class Post extends BasicEntity implements Autorizable, Commentable {
 
 	private static final long serialVersionUID = -7012906026786780373L;
 
@@ -81,6 +86,7 @@ public class Post extends BasicEntity {
 		this.creationDate = creationDate;
 	}
 
+	@Override
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "AUTHOR_ID")
 	public User getAuthor() {
@@ -157,5 +163,32 @@ public class Post extends BasicEntity {
 		} else if (!creationDate.equals(other.getCreationDate()))
 			return false;
 		return true;
+	}
+
+	@Override
+	@Transient
+	@XmlTransient
+	public Class<?> getResourceClass() {
+		return PostResource.class;
+	}
+
+	@Override
+	@Transient
+	@XmlTransient
+	public Class<?> getCommentResourceClass() {
+		return PostCommentResource.class;
+	}
+
+	@Override
+	@Transient
+	@XmlTransient
+	public Method getCommentSubresourceMethod() {
+		Method[] methods = PostResource.class.getMethods();
+		for (Method method : methods) {
+			if (method.getReturnType().equals(PostCommentResource.class)) {
+				return method;
+			}
+		}
+		return null;
 	}
 }

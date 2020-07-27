@@ -19,14 +19,17 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import com.mgrobelak.blogrest.ejb.GenericManager;
 import com.mgrobelak.blogrest.entities.Post;
 import com.mgrobelak.blogrest.filters.DateFilter;
 import com.mgrobelak.blogrest.filters.PaginationFilter;
+import com.mgrobelak.blogrest.hateoas.HateoasHelper;
 
 @Path("/posts")
 @Produces(MediaType.APPLICATION_JSON)
@@ -50,8 +53,12 @@ public class PostResource {
 
 	@GET
 	@Path("/{postId}")
-	public Post getPost(@PathParam("postId") Long id) {
-		return postManager.findById(Post.class, id);
+	public Post getPost(@PathParam("postId") Long id, @Context UriInfo uriInfo) {
+		Post post = postManager.findById(Post.class, id);
+		post.addLink(HateoasHelper.getSelfUri(uriInfo, post));
+		post.addLink(HateoasHelper.getAuthorUri(uriInfo, post));
+		// post.addLink(HateoasHelper.getCommentsUri(uriInfo, post));
+		return post;
 	}
 
 	@POST
@@ -75,7 +82,7 @@ public class PostResource {
 	}
 
 	@Path("/{postId}/comments")
-	public PostCommentResource getPostCommentResource() {
+	public PostCommentResource getPostCommentResource(@PathParam("postId") Long id) {
 		return postCommentResource;
 	}
 

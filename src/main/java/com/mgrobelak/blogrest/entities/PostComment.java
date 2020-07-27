@@ -14,9 +14,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.mgrobelak.blogrest.resources.PostCommentResource;
 import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 
 @NamedQueries({ @NamedQuery(name = "getAllPostComments", query = "SELECT c FROM PostComment c"),
@@ -25,7 +28,7 @@ import com.mgrobelak.blogrest.utils.LocalDateTimeAdapter;
 @XmlRootElement
 @Entity
 @Table(name = "POST_COMMENT")
-public class PostComment extends BasicEntity {
+public class PostComment extends BasicEntity implements Autorizable {
 
 	private static final long serialVersionUID = 3981749360956772186L;
 
@@ -72,6 +75,7 @@ public class PostComment extends BasicEntity {
 		this.creationDate = creationDate;
 	}
 
+	@Override
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "AUTHOR_ID")
 	public User getAuthor() {
@@ -80,6 +84,13 @@ public class PostComment extends BasicEntity {
 
 	public void setAuthor(User author) {
 		this.author = author;
+	}
+
+	@Override
+	@Transient
+	@XmlTransient
+	public Class<?> getResourceClass() {
+		return PostCommentResource.class;
 	}
 
 }
