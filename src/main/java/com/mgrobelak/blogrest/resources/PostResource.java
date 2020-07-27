@@ -55,9 +55,10 @@ public class PostResource {
 	@Path("/{postId}")
 	public Post getPost(@PathParam("postId") Long id, @Context UriInfo uriInfo) {
 		Post post = postManager.findById(Post.class, id);
+		post.getLinks().clear();
 		post.addLink(HateoasHelper.getSelfUri(uriInfo, post));
 		post.addLink(HateoasHelper.getAuthorUri(uriInfo, post));
-		// post.addLink(HateoasHelper.getCommentsUri(uriInfo, post));
+		post.addLink(HateoasHelper.getCommentsUri(uriInfo, post));
 		return post;
 	}
 
@@ -82,7 +83,7 @@ public class PostResource {
 	}
 
 	@Path("/{postId}/comments")
-	public PostCommentResource getPostCommentResource(@PathParam("postId") Long id) {
+	public PostCommentResource getPostCommentResource() {
 		return postCommentResource;
 	}
 

@@ -33,7 +33,7 @@ public class HateoasHelper {
 		if (commentSubResourceGetter != null) {
 			URI commentsUri = uriInfo.getBaseUriBuilder().path(entity.getResourceClass())
 					.path(entity.getResourceClass(), commentSubResourceGetter.getName())
-					.path(entity.getCommentResourceClass()).resolveTemplate("commentID", entity.getId()).build();
+					.path(entity.getCommentResourceClass()).resolveTemplate("postId", entity.getId()).build();
 			return new Link(REL_COMMENTS, commentsUri.toString());
 
 		}

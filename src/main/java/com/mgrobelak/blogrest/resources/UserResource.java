@@ -49,6 +49,7 @@ public class UserResource {
 	@Path("/{userId}")
 	public User getUser(@PathParam("userId") Long id, @Context UriInfo uriInfo) {
 		User user = userManager.findById(User.class, id);
+		user.getLinks().clear();
 		user.addLink(HateoasHelper.getSelfUri(uriInfo, user));
 		return user;
 	}

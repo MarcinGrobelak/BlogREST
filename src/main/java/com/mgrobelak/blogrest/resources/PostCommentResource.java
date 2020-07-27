@@ -61,6 +61,7 @@ public class PostCommentResource {
 	@Path("/{commentId}")
 	public PostComment getPost(@PathParam("commentId") Long id, @Context UriInfo uriInfo) {
 		PostComment comment = postCommentManager.findById(PostComment.class, id);
+		comment.getLinks().clear();
 		comment.addLink(HateoasHelper.getSelfUri(uriInfo, comment));
 		comment.addLink(HateoasHelper.getAuthorUri(uriInfo, comment));
 		return comment;
